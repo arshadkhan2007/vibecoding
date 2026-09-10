@@ -17,9 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-[#07090e] text-slate-100 antialiased`}>
         <Navbar />
-        <main className="min-h-screen bg-slate-50">
+        <main className="min-h-screen bg-[#07090e] bg-grid-pattern text-slate-100 relative selection:bg-cyan-500/30 selection:text-cyan-200">
           {children}
         </main>
       </body>
