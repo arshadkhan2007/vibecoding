@@ -34,7 +34,7 @@ export default function ImpactNetworkCanvas() {
     let mouseX = -1000
     let mouseY = -1000
 
-    // Initial node definitions (normalized 0..1 coordinates)
+    // Initial node definitions
     const nodes: NodeItem[] = [
       {
         id: 'center',
@@ -42,20 +42,20 @@ export default function ImpactNetworkCanvas() {
         baseX: 0.5,
         baseY: 0.48,
         radius: 36,
-        color: '#06b6d4',
-        glowColor: 'rgba(6, 182, 212, 0.8)',
-        desc: 'Central Verified Impact Protocol',
+        color: '#2563eb',
+        glowColor: 'rgba(37, 99, 235, 0.35)',
+        desc: 'Central Verified Impact Network',
         isCenter: true,
       },
       {
         id: 'water',
-        label: 'Water',
+        label: 'Clean Water',
         category: 'Water',
         baseX: 0.22,
         baseY: 0.32,
         radius: 26,
-        color: '#38bdf8',
-        glowColor: 'rgba(56, 189, 248, 0.7)',
+        color: '#0284c7',
+        glowColor: 'rgba(2, 132, 199, 0.25)',
         desc: 'Safe drinking water in rural villages',
       },
       {
@@ -65,8 +65,8 @@ export default function ImpactNetworkCanvas() {
         baseX: 0.78,
         baseY: 0.28,
         radius: 26,
-        color: '#818cf8',
-        glowColor: 'rgba(129, 140, 248, 0.7)',
+        color: '#6366f1',
+        glowColor: 'rgba(99, 102, 241, 0.25)',
         desc: 'Computers & digital labs for students',
       },
       {
@@ -76,8 +76,8 @@ export default function ImpactNetworkCanvas() {
         baseX: 0.82,
         baseY: 0.64,
         radius: 25,
-        color: '#f43f5e',
-        glowColor: 'rgba(244, 63, 94, 0.7)',
+        color: '#e11d48',
+        glowColor: 'rgba(225, 29, 72, 0.25)',
         desc: 'Community medical outreach & camps',
       },
       {
@@ -87,9 +87,9 @@ export default function ImpactNetworkCanvas() {
         baseX: 0.18,
         baseY: 0.66,
         radius: 25,
-        color: '#10b981',
-        glowColor: 'rgba(16, 185, 129, 0.7)',
-        desc: 'School repairs & clean sanitization',
+        color: '#059669',
+        glowColor: 'rgba(5, 150, 105, 0.25)',
+        desc: 'School repairs & clean sanitation',
       },
       {
         id: 'food',
@@ -98,8 +98,8 @@ export default function ImpactNetworkCanvas() {
         baseX: 0.36,
         baseY: 0.82,
         radius: 23,
-        color: '#f59e0b',
-        glowColor: 'rgba(245, 158, 11, 0.7)',
+        color: '#d97706',
+        glowColor: 'rgba(217, 119, 6, 0.25)',
         desc: 'Elderly meals & food support packs',
       },
       {
@@ -109,8 +109,8 @@ export default function ImpactNetworkCanvas() {
         baseX: 0.64,
         baseY: 0.82,
         radius: 23,
-        color: '#c084fc',
-        glowColor: 'rgba(192, 132, 252, 0.7)',
+        color: '#9333ea',
+        glowColor: 'rgba(147, 51, 234, 0.25)',
         desc: 'Verified grassroots civic action',
       },
       {
@@ -120,8 +120,8 @@ export default function ImpactNetworkCanvas() {
         baseX: 0.36,
         baseY: 0.16,
         radius: 21,
-        color: '#0ea5e9',
-        glowColor: 'rgba(14, 165, 233, 0.6)',
+        color: '#0369a1',
+        glowColor: 'rgba(3, 105, 161, 0.25)',
         desc: 'Clean storage tanks & reverse osmosis',
       },
       {
@@ -131,19 +131,17 @@ export default function ImpactNetworkCanvas() {
         baseX: 0.64,
         baseY: 0.16,
         radius: 21,
-        color: '#6366f1',
-        glowColor: 'rgba(99, 102, 241, 0.6)',
+        color: '#4f46e5',
+        glowColor: 'rgba(79, 70, 229, 0.25)',
         desc: 'STEM connectivity for children',
       },
     ]
 
-    // Connections between pairs of node indices
     const connections = [
       [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [0, 7], [0, 8],
       [1, 7], [2, 8], [7, 8], [1, 4], [2, 3], [4, 5], [5, 6], [6, 3]
     ]
 
-    // Animated particles traveling along connections
     const particles = connections.map(([from, to], i) => ({
       from,
       to,
@@ -155,7 +153,7 @@ export default function ImpactNetworkCanvas() {
       const parent = canvas.parentElement
       if (!parent) return
       width = parent.clientWidth
-      height = parent.clientHeight || 480
+      height = parent.clientHeight || 460
       const dpr = window.devicePixelRatio || 1
       canvas.width = width * dpr
       canvas.height = height * dpr
@@ -172,7 +170,6 @@ export default function ImpactNetworkCanvas() {
       mouseX = e.clientX - rect.left
       mouseY = e.clientY - rect.top
 
-      // Check hover
       let found: NodeItem | null = null
       nodes.forEach((node) => {
         const nx = node.baseX * width
@@ -194,11 +191,7 @@ export default function ImpactNetworkCanvas() {
 
     const handleClick = () => {
       if (hoveredNode) {
-        if (hoveredNode.isCenter) {
-          router.push('/problems')
-        } else {
-          router.push('/problems')
-        }
+        router.push('/problems')
       }
     }
 
@@ -212,10 +205,9 @@ export default function ImpactNetworkCanvas() {
       time += 0.02
       ctx.clearRect(0, 0, width, height)
 
-      // Calculate floating positions
       const currentPositions = nodes.map((node, i) => {
-        const floatX = Math.sin(time + i * 1.3) * (node.isCenter ? 3 : 8)
-        const floatY = Math.cos(time + i * 1.7) * (node.isCenter ? 3 : 8)
+        const floatX = Math.sin(time + i * 1.3) * (node.isCenter ? 2 : 6)
+        const floatY = Math.cos(time + i * 1.7) * (node.isCenter ? 2 : 6)
         return {
           x: node.baseX * width + floatX,
           y: node.baseY * height + floatY,
@@ -235,20 +227,16 @@ export default function ImpactNetworkCanvas() {
         ctx.lineTo(p2.x, p2.y)
 
         if (isConnectedToHover) {
-          ctx.strokeStyle = 'rgba(56, 189, 248, 0.7)'
+          ctx.strokeStyle = '#2563eb'
           ctx.lineWidth = 2.5
-          ctx.shadowColor = '#38bdf8'
-          ctx.shadowBlur = 12
         } else {
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)'
+          ctx.strokeStyle = 'rgba(148, 163, 184, 0.35)'
           ctx.lineWidth = 1
-          ctx.shadowBlur = 0
         }
         ctx.stroke()
       })
-      ctx.shadowBlur = 0
 
-      // 2. Draw moving particles on lines
+      // 2. Draw moving particles
       particles.forEach((p) => {
         p.progress += p.speed
         if (p.progress > 1) p.progress = 0
@@ -260,12 +248,9 @@ export default function ImpactNetworkCanvas() {
 
         ctx.beginPath()
         ctx.arc(px, py, 2.5, 0, Math.PI * 2)
-        ctx.fillStyle = '#38bdf8'
-        ctx.shadowColor = '#06b6d4'
-        ctx.shadowBlur = 8
+        ctx.fillStyle = '#2563eb'
         ctx.fill()
       })
-      ctx.shadowBlur = 0
 
       // 3. Draw nodes
       nodes.forEach((node, i) => {
@@ -273,32 +258,27 @@ export default function ImpactNetworkCanvas() {
         const isHover = hoveredNode?.id === node.id
         const currentRadius = node.radius + (isHover ? 4 : 0)
 
-        // Outer glow halo
+        // Outer glow
         ctx.beginPath()
-        ctx.arc(pos.x, pos.y, currentRadius + 8, 0, Math.PI * 2)
-        ctx.fillStyle = isHover ? node.glowColor : 'rgba(255, 255, 255, 0.03)'
-        ctx.shadowColor = node.color
-        ctx.shadowBlur = isHover ? 25 : node.isCenter ? 18 : 6
+        ctx.arc(pos.x, pos.y, currentRadius + 6, 0, Math.PI * 2)
+        ctx.fillStyle = isHover ? node.glowColor : 'rgba(241, 245, 249, 0.6)'
         ctx.fill()
 
-        // Node circle surface (glassmorphic dark fill with bright border)
+        // Node circle
         ctx.beginPath()
         ctx.arc(pos.x, pos.y, currentRadius, 0, Math.PI * 2)
-        ctx.fillStyle = node.isCenter 
-          ? 'rgba(6, 182, 212, 0.25)' 
-          : 'rgba(15, 23, 42, 0.85)'
+        ctx.fillStyle = node.isCenter ? '#2563eb' : '#ffffff'
         ctx.fill()
 
-        ctx.strokeStyle = isHover ? '#ffffff' : node.color
+        ctx.strokeStyle = node.color
         ctx.lineWidth = node.isCenter ? 3 : 2
         ctx.stroke()
 
         // Label
-        ctx.shadowBlur = 0
-        ctx.font = `${node.isCenter ? 'bold 12px' : '600 11px'} sans-serif`
+        ctx.font = `${node.isCenter ? 'bold 11px' : '600 11px'} sans-serif`
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
-        ctx.fillStyle = '#ffffff'
+        ctx.fillStyle = node.isCenter ? '#ffffff' : '#0f172a'
         ctx.fillText(node.label, pos.x, pos.y)
       })
 
@@ -317,7 +297,7 @@ export default function ImpactNetworkCanvas() {
   }, [router, hoveredNode])
 
   return (
-    <div className="relative w-full h-[420px] sm:h-[480px] select-none">
+    <div className="relative w-full h-[400px] sm:h-[460px] select-none">
       <canvas
         ref={canvasRef}
         className="w-full h-full cursor-pointer touch-none block"
@@ -329,15 +309,15 @@ export default function ImpactNetworkCanvas() {
           className="absolute pointer-events-none transform -translate-x-1/2 -translate-y-full z-30 transition-all duration-150"
           style={{ left: tooltipPos.x, top: tooltipPos.y }}
         >
-          <div className="bg-slate-900/95 border border-cyan-500/40 rounded-xl px-3.5 py-2 shadow-xl shadow-cyan-500/15 backdrop-blur-md text-center whitespace-nowrap">
-            <div className="text-xs font-black text-white flex items-center justify-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          <div className="bg-white/95 border border-blue-200 rounded-xl px-3.5 py-2 shadow-xl shadow-blue-500/10 backdrop-blur-md text-center whitespace-nowrap">
+            <div className="text-xs font-black text-slate-900 flex items-center justify-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
               {hoveredNode.label}
             </div>
-            <div className="text-[11px] text-slate-300 mt-0.5 font-normal">
+            <div className="text-[11px] text-slate-600 mt-0.5 font-normal">
               {hoveredNode.desc}
             </div>
-            <div className="text-[10px] text-cyan-400 font-semibold mt-1">
+            <div className="text-[10px] text-blue-600 font-bold mt-1">
               Click to explore node →
             </div>
           </div>

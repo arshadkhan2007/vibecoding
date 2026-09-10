@@ -1,32 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  --background: #07090e;
-  --foreground: #f8fafc;
+  --background: #f8fafc;
+  --foreground: #0f172a;
 }
 
 body {
-  background-color: #07090e;
-  color: #f8fafc;
+  background-color: #f8fafc;
+  color: #0f172a;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* Subtle Web3 Cyber-Grid Background */
+/* Subtle Crisp Light Grid Background */
 .bg-grid-pattern {
   background-size: 36px 36px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
 }
 
-/* Glassmorphic Surfaces */
+/* Light Glass Surfaces */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.65);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .glass-panel-hover {
@@ -34,36 +34,23 @@ body {
 }
 
 .glass-panel-hover:hover {
-  background: rgba(15, 23, 42, 0.85);
-  border-color: rgba(56, 189, 248, 0.4);
-  box-shadow: 0 10px 30px -10px rgba(56, 189, 248, 0.18);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 12px 30px -10px rgba(59, 130, 246, 0.12);
   transform: translateY(-2px);
 }
 
-/* Neon glow utilities */
+/* Neon & Soft Glow Utilities */
 .glow-cyan {
-  box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.35);
+  box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.25);
 }
 
-.glow-violet {
-  box-shadow: 0 0 25px -5px rgba(139, 92, 246, 0.35);
+.glow-blue {
+  box-shadow: 0 0 25px -5px rgba(37, 99, 235, 0.25);
 }
 
 .glow-emerald {
-  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.35);
-}
-
-/* Travelling particle line */
-@keyframes particleTravel {
-  0% { transform: translateY(0); opacity: 0; }
-  30% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { transform: translateY(100%); opacity: 0; }
-}
-
-@keyframes pulseSubtle {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
+  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.25);
 }
 
 @media (prefers-reduced-motion: reduce) {
