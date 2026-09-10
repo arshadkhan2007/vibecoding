@@ -17,6 +17,9 @@ import {
 } from 'lucide-react'
 import { getProblemImage } from '@/lib/images'
 import ImpactNetworkCanvas from '@/components/ImpactNetworkCanvas'
+import AnimatedCounter from '@/components/AnimatedCounter'
+import AnimatedTextTicker from '@/components/AnimatedTextTicker'
+import LiveActivityTicker from '@/components/LiveActivityTicker'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -57,16 +60,15 @@ export default async function Home() {
       {/* 1. HERO — IMPACT NETWORK */}
       <section className="relative overflow-hidden pt-16 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-blue-50/50 via-white to-slate-50/80">
         <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs sm:text-sm font-bold mb-6 shadow-xs">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs sm:text-sm font-bold mb-6 shadow-xs animate-float">
             <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping"></span>
             <span>Live Civic Crowdfunding Protocol</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-5 leading-[1.1] text-slate-950">
             Real Problems. <br />
-            <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-600 bg-clip-text text-transparent">
-              Real People. Real Impact.
-            </span>
+            <span className="text-slate-900">Real People. </span>
+            <AnimatedTextTicker />
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8 text-slate-600 font-normal leading-relaxed">
@@ -102,7 +104,10 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 2. IMPACT COUNTER (METRIC NODES) */}
+      {/* Live Stream Activity Marquee Ticker */}
+      <LiveActivityTicker />
+
+      {/* 2. IMPACT COUNTER (ANIMATED METRIC NODES) */}
       <section className="relative z-20 -mt-6 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/70 border border-slate-200/80 p-6 sm:p-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-slate-100">
@@ -111,7 +116,9 @@ export default async function Home() {
                 <Coins className="w-4 h-4" />
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Total Pooled</span>
               </div>
-              <p className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">₹{totalRaised.toLocaleString('en-IN')}</p>
+              <p className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight number-glow">
+                <AnimatedCounter value={totalRaised} prefix="₹" duration={2200} />
+              </p>
               <p className="text-xs text-slate-500 mt-1 font-medium">100% verified allocation</p>
             </div>
 
@@ -120,7 +127,9 @@ export default async function Home() {
                 <AlertTriangle className="w-4 h-4" />
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Problem Nodes</span>
               </div>
-              <p className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">{problemsCount}</p>
+              <p className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+                <AnimatedCounter value={problemsCount} duration={1500} />
+              </p>
               <p className="text-xs text-slate-500 mt-1 font-medium">Field authenticated</p>
             </div>
 
@@ -129,7 +138,9 @@ export default async function Home() {
                 <Users className="w-4 h-4" />
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Citizens Impacted</span>
               </div>
-              <p className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">{totalAffected}+</p>
+              <p className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+                <AnimatedCounter value={totalAffected} suffix="+" duration={2000} />
+              </p>
               <p className="text-xs text-slate-500 mt-1 font-medium">Direct ground beneficiaries</p>
             </div>
 
@@ -138,7 +149,9 @@ export default async function Home() {
                 <Activity className="w-4 h-4" />
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Active Connections</span>
               </div>
-              <p className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">{fundraisersCount}</p>
+              <p className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
+                <AnimatedCounter value={fundraisersCount} duration={1400} />
+              </p>
               <p className="text-xs text-slate-500 mt-1 font-medium">Open for micro-backing</p>
             </div>
           </div>
@@ -150,7 +163,7 @@ export default async function Home() {
         <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full">
           <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-lg shadow-slate-200/50 relative overflow-hidden">
             <div className="flex items-center justify-between gap-2 mb-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-600 text-white text-xs font-bold uppercase tracking-wider shadow-xs">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-600 text-white text-xs font-bold uppercase tracking-wider shadow-xs animate-pulse">
                 <Flame className="w-3.5 h-3.5 text-amber-300" />
                 Problem That Needs You
               </div>
@@ -182,7 +195,8 @@ export default async function Home() {
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1">
-                    <Users className="w-3.5 h-3.5 text-slate-400" /> {heroProblem.people_affected} affected
+                    <Users className="w-3.5 h-3.5 text-slate-400" /> 
+                    <AnimatedCounter value={heroProblem.people_affected} duration={1400} /> affected
                   </span>
                   <span>•</span>
                   <span className="text-amber-700 font-semibold">
@@ -203,7 +217,9 @@ export default async function Home() {
                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 shadow-xs mb-6">
                     <div className="flex justify-between items-baseline mb-1 text-xs">
                       <span className="font-bold text-slate-800">Connection Progress</span>
-                      <span className="font-black text-blue-600">{heroProgress}% FUNDED</span>
+                      <span className="font-black text-blue-600">
+                        <AnimatedCounter value={heroProgress} suffix="% FUNDED" duration={1800} />
+                      </span>
                     </div>
                     <div className="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden mb-2">
                       <div 
@@ -212,7 +228,9 @@ export default async function Home() {
                       ></div>
                     </div>
                     <div className="flex justify-between text-[11px] text-slate-500">
-                      <span>₹{Number(heroFundraiser.raised_amount).toLocaleString('en-IN')} raised</span>
+                      <span>
+                        <AnimatedCounter value={Number(heroFundraiser.raised_amount)} prefix="₹" duration={1600} /> raised
+                      </span>
                       <span>Goal: ₹{Number(heroFundraiser.target_amount).toLocaleString('en-IN')}</span>
                     </div>
                   </div>
@@ -227,7 +245,7 @@ export default async function Home() {
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                   <Link 
-                    href={`/problems/${heroProblem.id}`}
+                    href={`/problems/${heroProblem.id}`} 
                     className="inline-flex items-center justify-center gap-1.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-bold py-3.5 px-5 rounded-xl transition text-sm"
                   >
                     Read Node Dossier
@@ -270,7 +288,9 @@ export default async function Home() {
                   <MapPin className="w-3 h-3 text-slate-400 shrink-0" /> {mostUrgentProblem.location}
                 </p>
                 <div className="bg-rose-50/60 p-2.5 rounded-xl border border-rose-100 text-xs mb-4">
-                  <span className="font-bold text-rose-800">{mostUrgentProblem.people_affected} students/citizens</span> affected
+                  <span className="font-bold text-rose-800">
+                    <AnimatedCounter value={mostUrgentProblem.people_affected} duration={1500} /> students/citizens
+                  </span> affected
                 </div>
               </div>
 
@@ -293,7 +313,11 @@ export default async function Home() {
                     ⚡ Near Target
                   </span>
                   <span className="text-[10px] font-bold text-blue-600">
-                    {Math.round((closestFundraiser.raised_amount / closestFundraiser.target_amount) * 100)}%
+                    <AnimatedCounter 
+                      value={Math.round((closestFundraiser.raised_amount / closestFundraiser.target_amount) * 100)} 
+                      suffix="%" 
+                      duration={1400} 
+                    />
                   </span>
                 </div>
                 <h3 className="font-bold text-base text-slate-900 group-hover:text-blue-600 transition line-clamp-2 mb-1.5">
@@ -303,7 +327,9 @@ export default async function Home() {
                   <MapPin className="w-3 h-3 text-slate-400 shrink-0" /> {closestFundraiser.problem?.location || 'India'}
                 </p>
                 <div className="bg-blue-50/60 p-2.5 rounded-xl border border-blue-100 text-xs mb-4">
-                  <span className="font-bold text-blue-800">₹{Number(closestFundraiser.raised_amount).toLocaleString('en-IN')}</span> of ₹{Number(closestFundraiser.target_amount).toLocaleString('en-IN')}
+                  <span className="font-bold text-blue-800">
+                    <AnimatedCounter value={Number(closestFundraiser.raised_amount)} prefix="₹" duration={1600} />
+                  </span> of ₹{Number(closestFundraiser.target_amount).toLocaleString('en-IN')}
                 </div>
               </div>
 
@@ -334,7 +360,9 @@ export default async function Home() {
                   <MapPin className="w-3 h-3 text-slate-400 shrink-0" /> {mostAffectedProblem.location}
                 </p>
                 <div className="bg-amber-50/60 p-2.5 rounded-xl border border-amber-100 text-xs mb-4">
-                  <span className="font-bold text-amber-900">{mostAffectedProblem.people_affected} citizens</span> impacted in area
+                  <span className="font-bold text-amber-900">
+                    <AnimatedCounter value={mostAffectedProblem.people_affected} duration={1500} /> citizens
+                  </span> impacted in area
                 </div>
               </div>
 
@@ -365,7 +393,15 @@ export default async function Home() {
                   <MapPin className="w-3 h-3 text-slate-400 shrink-0" /> {recentlyActiveProblem.location}
                 </p>
                 <div className="bg-emerald-50/60 p-2.5 rounded-xl border border-emerald-100 text-xs mb-4">
-                  <span className="font-bold text-emerald-900">{recentlyActiveFundraiser ? `₹${Number(recentlyActiveFundraiser.raised_amount).toLocaleString('en-IN')} raised` : 'NGO Verified'}</span>
+                  <span className="font-bold text-emerald-900">
+                    {recentlyActiveFundraiser ? (
+                      <>
+                        <AnimatedCounter value={Number(recentlyActiveFundraiser.raised_amount)} prefix="₹" duration={1600} /> raised
+                      </>
+                    ) : (
+                      'NGO Verified'
+                    )}
+                  </span>
                 </div>
               </div>
 

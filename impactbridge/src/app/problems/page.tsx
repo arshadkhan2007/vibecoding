@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { ArrowRight, MapPin, Users, AlertCircle, Plus, Network } from 'lucide-react'
 import { getProblemImage } from '@/lib/images'
+import AnimatedCounter from '@/components/AnimatedCounter'
 
 export default async function ProblemsPage() {
   const supabase = await createClient()
@@ -116,7 +117,9 @@ export default async function ProblemsPage() {
                 </p>
                 <p className="flex items-center gap-1.5 text-slate-500">
                   <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                  <span>{problem.people_affected} community members affected</span>
+                  <span>
+                    <AnimatedCounter value={problem.people_affected || 0} duration={1400} /> community members affected
+                  </span>
                 </p>
               </div>
 

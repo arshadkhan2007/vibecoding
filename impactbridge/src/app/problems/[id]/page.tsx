@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, MapPin, AlertTriangle, Users, CheckCircle2, ArrowRight, Sparkles, HeartHandshake, Zap } from 'lucide-react'
 import { getProblemImage } from '@/lib/images'
+import AnimatedCounter from '@/components/AnimatedCounter'
 
 export default async function ProblemDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient()
@@ -104,7 +105,9 @@ export default async function ProblemDetailsPage({ params }: { params: Promise<{
             </div>
             <div className="flex items-center text-slate-700">
               <Users className="w-5 h-5 mr-2 text-slate-400 shrink-0" />
-              <span className="text-sm font-medium">{problem.people_affected} affected citizens</span>
+              <span className="text-sm font-medium">
+                <AnimatedCounter value={problem.people_affected || 0} duration={1400} /> affected citizens
+              </span>
             </div>
             <div className="flex items-center text-slate-700">
               <AlertTriangle className="w-5 h-5 mr-2 text-amber-500 shrink-0" />
@@ -204,8 +207,12 @@ export default async function ProblemDetailsPage({ params }: { params: Promise<{
               
               <div className="w-full max-w-md mx-auto mb-6">
                 <div className="flex justify-between text-xs mb-1.5 font-bold text-slate-700">
-                  <span>₹{Number(fundraiser.raised_amount).toLocaleString('en-IN')} raised</span>
-                  <span>Goal: ₹{Number(fundraiser.target_amount).toLocaleString('en-IN')}</span>
+                  <span>
+                    <AnimatedCounter value={Number(fundraiser.raised_amount)} prefix="₹" duration={1600} /> raised
+                  </span>
+                  <span>
+                    Goal: <AnimatedCounter value={Number(fundraiser.target_amount)} prefix="₹" duration={1600} />
+                  </span>
                 </div>
                 <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden p-0.5">
                   <div 

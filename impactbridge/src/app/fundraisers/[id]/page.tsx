@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft, Users, Target, Activity, MapPin, Sparkles } from 'lucide-react'
 import DonationForm from './DonationForm'
 import { getProblemImage } from '@/lib/images'
+import AnimatedCounter from '@/components/AnimatedCounter'
 
 export default async function FundraiserDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient()
@@ -90,7 +91,7 @@ export default async function FundraiserDetailsPage({ params }: { params: Promis
                     </span>
                     <span>•</span>
                     <span className="text-slate-700 font-medium">
-                      {fundraiser.problem?.people_affected} affected citizens
+                      <AnimatedCounter value={fundraiser.problem?.people_affected || 0} duration={1400} /> affected citizens
                     </span>
                   </div>
                 </Link>
@@ -125,14 +126,16 @@ export default async function FundraiserDetailsPage({ params }: { params: Promis
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200">
-                  {Math.round(progress)}% Funded
+                  <AnimatedCounter value={Math.round(progress)} suffix="% Funded" duration={1500} />
                 </span>
                 <span className="text-xs font-bold text-emerald-700 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                   ⚡ Live Momentum
                 </span>
               </div>
-              <h3 className="text-3xl font-black text-slate-950 tracking-tight">₹{Number(fundraiser.raised_amount).toLocaleString('en-IN')}</h3>
+              <h3 className="text-3xl font-black text-slate-950 tracking-tight">
+                <AnimatedCounter value={Number(fundraiser.raised_amount)} prefix="₹" duration={1800} />
+              </h3>
               <p className="text-slate-500 text-xs mt-0.5">raised of ₹{Number(fundraiser.target_amount).toLocaleString('en-IN')} goal</p>
             </div>
 
@@ -147,12 +150,16 @@ export default async function FundraiserDetailsPage({ params }: { params: Promis
             <div className="grid grid-cols-2 gap-3 mb-8 text-center">
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
                 <Users className="w-4 h-4 mx-auto text-blue-600 mb-1" />
-                <div className="font-black text-lg text-slate-900">{donorsCount || Math.max(12, Math.round(Number(fundraiser.raised_amount) / 800))}</div>
+                <div className="font-black text-lg text-slate-900">
+                  <AnimatedCounter value={donorsCount || Math.max(12, Math.round(Number(fundraiser.raised_amount) / 800))} duration={1400} />
+                </div>
                 <div className="text-[11px] text-slate-500 font-medium">Backers</div>
               </div>
               <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
                 <Target className="w-4 h-4 mx-auto text-indigo-600 mb-1" />
-                <div className="font-black text-lg text-slate-900">₹{Math.max(0, Number(fundraiser.target_amount) - Number(fundraiser.raised_amount)).toLocaleString('en-IN')}</div>
+                <div className="font-black text-lg text-slate-900">
+                  <AnimatedCounter value={Math.max(0, Number(fundraiser.target_amount) - Number(fundraiser.raised_amount))} prefix="₹" duration={1500} />
+                </div>
                 <div className="text-[11px] text-slate-500 font-medium">To Goal</div>
               </div>
             </div>

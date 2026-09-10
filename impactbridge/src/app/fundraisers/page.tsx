@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { HeartHandshake, ArrowRight, Target, MapPin, Activity } from 'lucide-react'
 import { getProblemImage } from '@/lib/images'
+import AnimatedCounter from '@/components/AnimatedCounter'
 
 export default async function FundraisersPage() {
   const supabase = await createClient()
@@ -94,16 +95,16 @@ export default async function FundraisersPage() {
                 <div className="mt-auto pt-4 border-t border-slate-100">
                   <div className="flex justify-between items-baseline mb-1">
                     <span className="text-xs font-black uppercase tracking-wider text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
-                      {progress}% FUNDED
+                      <AnimatedCounter value={progress} suffix="% FUNDED" duration={1400} />
                     </span>
                     <span className="text-xs font-semibold text-slate-500">
-                      {Math.max(14, Math.round(raised / 650))} backers
+                      <AnimatedCounter value={Math.max(14, Math.round(raised / 650))} suffix=" backers" duration={1400} />
                     </span>
                   </div>
 
                   <div className="flex items-baseline gap-1.5 my-2">
                     <span className="text-2xl font-black text-slate-900 tracking-tight">
-                      ₹{raised.toLocaleString('en-IN')}
+                      <AnimatedCounter value={raised} prefix="₹" duration={1600} />
                     </span>
                     <span className="text-xs text-slate-500 font-medium">
                       raised of ₹{target.toLocaleString('en-IN')}
@@ -120,7 +121,9 @@ export default async function FundraisersPage() {
 
                   <div className="flex justify-between text-[11px] text-slate-500 mb-4">
                     <span>Target: ₹{target.toLocaleString('en-IN')}</span>
-                    <span>Remaining: ₹{Math.max(0, target - raised).toLocaleString('en-IN')}</span>
+                    <span>
+                      Remaining: <AnimatedCounter value={Math.max(0, target - raised)} prefix="₹" duration={1400} />
+                    </span>
                   </div>
 
                   {/* Donate CTA button */}
