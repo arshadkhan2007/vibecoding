@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { ArrowRight, MapPin, Users, AlertCircle, Plus, Sparkles } from 'lucide-react'
+import { getProblemImage } from '@/lib/images'
 
 export default async function ProblemsPage() {
   const supabase = await createClient()
@@ -71,18 +72,11 @@ export default async function ProblemsPage() {
           >
             {/* Image / Header area */}
             <div className="h-52 bg-slate-100 overflow-hidden relative">
-              {problem.image_url ? (
-                <img 
-                  src={problem.image_url} 
-                  alt={problem.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
-                />
-              ) : (
-                <div className="flex flex-col items-center justify-center h-full text-slate-400 bg-gradient-to-tr from-slate-100 to-slate-200/60">
-                  <Sparkles className="w-8 h-8 mb-1.5 text-slate-300" />
-                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Verified Report</span>
-                </div>
-              )}
+              <img 
+                src={getProblemImage(problem)} 
+                alt={problem.title} 
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+              />
               
               {/* Category overlay */}
               <div className="absolute top-3 left-3">

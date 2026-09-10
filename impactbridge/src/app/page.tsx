@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { ArrowRight, CheckCircle2, Heart, ShieldCheck, Users2, Sparkles, MapPin, AlertTriangle, TrendingUp } from 'lucide-react'
+import { getProblemImage } from '@/lib/images'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -166,19 +167,12 @@ export default async function Home() {
                 className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-slate-200/70 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-200"
               >
                 <div className="h-52 bg-slate-100 w-full overflow-hidden relative">
-                  {problem.image_url ? (
-                    <img 
-                      src={problem.image_url} 
-                      alt={problem.title} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center h-full text-slate-400 bg-gradient-to-tr from-slate-100 to-slate-200">
-                      <Sparkles className="w-8 h-8 mb-2 text-slate-300" />
-                      <span className="text-xs font-medium uppercase tracking-wider">Community Report</span>
-                    </div>
-                  )}
-                  <span className="absolute top-3 left-3 text-xs font-bold uppercase text-blue-700 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-md shadow-xs">
+                  <img 
+                    src={getProblemImage(problem)} 
+                    alt={problem.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                  />
+                  <span className="absolute top-3 left-3 text-xs font-bold uppercase text-blue-700 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-md shadow-xs">
                     {problem.category}
                   </span>
                 </div>

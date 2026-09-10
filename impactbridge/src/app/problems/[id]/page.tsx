@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, MapPin, AlertTriangle, Users } from 'lucide-react'
+import { getProblemImage } from '@/lib/images'
 
 export default async function ProblemDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient()
@@ -34,11 +35,13 @@ export default async function ProblemDetailsPage({ params }: { params: Promise<{
       </Link>
 
       <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
-        {problem.image_url && (
-          <div className="h-64 md:h-96 w-full">
-            <img src={problem.image_url} alt={problem.title} className="w-full h-full object-cover" />
-          </div>
-        )}
+        <div className="h-64 md:h-96 w-full overflow-hidden relative">
+          <img 
+            src={getProblemImage(problem)} 
+            alt={problem.title} 
+            className="w-full h-full object-cover" 
+          />
+        </div>
         
         <div className="p-8">
           <div className="flex flex-wrap items-center gap-2 mb-4">

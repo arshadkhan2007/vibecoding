@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Users, Target, Activity } from 'lucide-react'
 import DonationForm from './DonationForm'
+import { getProblemImage } from '@/lib/images'
 
 export default async function FundraiserDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient()
@@ -43,11 +44,13 @@ export default async function FundraiserDetailsPage({ params }: { params: Promis
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2 space-y-8">
           <div className="bg-white rounded-2xl shadow-sm border overflow-hidden">
-            {fundraiser.problem?.image_url && (
-              <div className="h-64 md:h-96 w-full">
-                <img src={fundraiser.problem.image_url} alt={fundraiser.title} className="w-full h-full object-cover" />
-              </div>
-            )}
+            <div className="h-64 md:h-96 w-full overflow-hidden relative">
+              <img 
+                src={getProblemImage(fundraiser.problem)} 
+                alt={fundraiser.title} 
+                className="w-full h-full object-cover" 
+              />
+            </div>
             
             <div className="p-8">
               <div className="flex flex-wrap items-center gap-2 mb-4">

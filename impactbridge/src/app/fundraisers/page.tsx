@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { HeartHandshake, ArrowRight, Target, MapPin, Sparkles } from 'lucide-react'
+import { getProblemImage } from '@/lib/images'
 
 export default async function FundraisersPage() {
   const supabase = await createClient()
@@ -9,7 +10,7 @@ export default async function FundraisersPage() {
     .from('fundraisers')
     .select(`
       *,
-      problem:problems(title, category, location)
+      problem:problems(id, title, category, location, image_url)
     `)
     .eq('status', 'ACTIVE')
     .order('created_at', { ascending: false })
@@ -42,17 +43,27 @@ export default async function FundraisersPage() {
               key={fundraiser.id} 
               className="group flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 overflow-hidden border border-slate-200/80 transform hover:-translate-y-1"
             >
-              <div className="p-6 flex-grow flex flex-col">
-                {/* Category & Status */}
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <span className="text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+              {/* Image banner */}
+              <div className="h-48 bg-slate-100 overflow-hidden relative">
+                <img 
+                  src={getProblemImage(fundraiser.problem)} 
+                  alt={fundraiser.title} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                />
+                <div className="absolute top-3 left-3">
+                  <span className="text-xs font-bold uppercase tracking-wider text-blue-800 bg-white/95 backdrop-blur-md px-3 py-1 rounded-md shadow-xs border border-blue-100">
                     {fundraiser.problem?.category || 'Community'}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                </div>
+                <div className="absolute top-3 right-3">
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-800 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-md shadow-xs border border-emerald-100">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     ACTIVE
                   </span>
                 </div>
+              </div>
+
+              <div className="p-6 flex-grow flex flex-col">
 
                 <h3 className="font-bold text-xl mb-2 text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2">
                   {fundraiser.title}
