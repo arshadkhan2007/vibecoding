@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, MapPin, Users, AlertCircle, Plus, Sparkles } from 'lucide-react'
 
 export default async function ProblemsPage() {
   const supabase = await createClient()
@@ -10,60 +10,135 @@ export default async function ProblemsPage() {
     .select('*')
     .order('created_at', { ascending: false })
 
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'VERIFIED':
+        return 'bg-emerald-50 text-emerald-700 border-emerald-200'
+      case 'FUNDRAISER_CREATED':
+        return 'bg-purple-50 text-purple-700 border-purple-200'
+      case 'SOLVED':
+        return 'bg-blue-50 text-blue-700 border-blue-200'
+      case 'UNDER_REVIEW':
+        return 'bg-amber-50 text-amber-700 border-amber-200'
+      default:
+        return 'bg-slate-100 text-slate-700 border-slate-200'
+    }
+  }
+
+  const getUrgencyBadge = (urgency: string) => {
+    switch (urgency?.toLowerCase()) {
+      case 'urgent':
+        return 'text-rose-700 bg-rose-50 border-rose-200'
+      case 'high':
+        return 'text-amber-700 bg-amber-50 border-amber-200'
+      case 'medium':
+        return 'text-yellow-800 bg-yellow-50 border-yellow-200'
+      default:
+        return 'text-slate-600 bg-slate-50 border-slate-200'
+    }
+  }
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="flex justify-between items-center mb-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-6 mb-12 pb-8 border-b border-slate-200">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Community Problems</h1>
-          <p className="text-gray-600 mt-2">Discover verified issues that need your attention and support.</p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider mb-3">
+            Civic Action Hub
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            Community Problems
+          </h1>
+          <p className="text-slate-600 mt-2 text-base sm:text-lg max-w-2xl">
+            Discover and follow verified issues reported by community members across the country.
+          </p>
         </div>
-        <Link href="/report-problem" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
-          Report a Problem
+        <Link 
+          href="/report-problem" 
+          className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold px-5 py-3 rounded-xl shadow-md shadow-blue-500/20 hover:shadow-lg transition transform active:scale-98 text-sm"
+        >
+          <Plus className="w-4 h-4" /> Report a Problem
         </Link>
       </div>
 
+      {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {problems?.map((problem) => (
-          <Link href={`/problems/${problem.id}`} key={problem.id} className="group">
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition overflow-hidden border border-gray-100 flex flex-col h-full">
-              <div className="h-48 bg-slate-100">
-                {problem.image_url ? (
-                  <img src={problem.image_url} alt={problem.title} className="w-full h-full object-cover" />
-                ) : (
-                  <div className="flex items-center justify-center h-full text-slate-400">No Image provided</div>
+          <Link 
+            href={`/problems/${problem.id}`} 
+            key={problem.id} 
+            className="group flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-xl hover:border-blue-300 transition-all duration-300 overflow-hidden border border-slate-200/80 transform hover:-translate-y-1"
+          >
+            {/* Image / Header area */}
+            <div className="h-52 bg-slate-100 overflow-hidden relative">
+              {problem.image_url ? (
+                <img 
+                  src={problem.image_url} 
+                  alt={problem.title} 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center h-full text-slate-400 bg-gradient-to-tr from-slate-100 to-slate-200/60">
+                  <Sparkles className="w-8 h-8 mb-1.5 text-slate-300" />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Verified Report</span>
+                </div>
+              )}
+              
+              {/* Category overlay */}
+              <div className="absolute top-3 left-3">
+                <span className="text-xs font-bold uppercase tracking-wide text-blue-800 bg-white/95 backdrop-blur-md px-3 py-1 rounded-md shadow-xs border border-blue-100">
+                  {problem.category}
+                </span>
+              </div>
+            </div>
+
+            {/* Card Content */}
+            <div className="p-6 flex-grow flex flex-col">
+              {/* Badges row */}
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${getStatusBadge(problem.status)}`}>
+                  {problem.status.replace('_', ' ')}
+                </span>
+                {problem.urgency && (
+                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${getUrgencyBadge(problem.urgency)}`}>
+                    Urgency: {problem.urgency}
+                  </span>
                 )}
               </div>
-              <div className="p-6 flex-grow flex flex-col">
-                <div className="flex justify-between items-start mb-3">
-                  <span className="text-xs font-bold uppercase text-blue-600 bg-blue-50 px-2 py-1 rounded">
-                    {problem.category}
-                  </span>
-                  <span className={`text-xs font-semibold px-2 py-1 rounded ${
-                    problem.status === 'VERIFIED' ? 'bg-green-100 text-green-700' :
-                    problem.status === 'REPORTED' ? 'bg-gray-100 text-gray-700' :
-                    problem.status === 'FUNDRAISER_CREATED' ? 'bg-purple-100 text-purple-700' :
-                    problem.status === 'SOLVED' ? 'bg-blue-100 text-blue-700' :
-                    'bg-yellow-100 text-yellow-700'
-                  }`}>
-                    {problem.status.replace('_', ' ')}
-                  </span>
-                </div>
-                <h3 className="font-bold text-xl mb-2 text-gray-900 group-hover:text-blue-600 transition line-clamp-2">{problem.title}</h3>
-                <div className="text-sm text-gray-500 mb-4 mt-auto">
-                  <p className="mb-1">📍 {problem.location}</p>
-                  <p className="mb-1">👥 {problem.people_affected} affected</p>
-                  <p>⚠️ Urgency: {problem.urgency}</p>
-                </div>
-                <div className="mt-4 pt-4 border-t flex items-center text-blue-600 font-medium text-sm">
-                  View full details <ArrowRight className="ml-1 w-4 h-4" />
-                </div>
+
+              <h3 className="font-bold text-xl mb-2 text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2">
+                {problem.title}
+              </h3>
+              
+              <p className="text-sm text-slate-600 mb-6 line-clamp-2 leading-relaxed">
+                {problem.description}
+              </p>
+
+              {/* Meta stats */}
+              <div className="text-xs text-slate-500 mb-5 space-y-1.5 mt-auto bg-slate-50/70 p-3 rounded-xl border border-slate-100">
+                <p className="flex items-center gap-1.5 text-slate-700 font-medium">
+                  <MapPin className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                  <span className="truncate">{problem.location}</span>
+                </p>
+                <p className="flex items-center gap-1.5 text-slate-600">
+                  <Users className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  <span>{problem.people_affected} community members affected</span>
+                </p>
+              </div>
+
+              {/* Footer CTA */}
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-blue-600 font-semibold text-sm group-hover:text-blue-700">
+                <span>View full dossier</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
           </Link>
         ))}
+
         {problems?.length === 0 && (
-          <div className="col-span-full py-12 text-center text-gray-500">
-            No problems have been reported yet.
+          <div className="col-span-full py-16 text-center bg-white rounded-2xl border border-dashed border-slate-300">
+            <AlertCircle className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+            <p className="text-slate-600 font-medium">No problems have been reported yet.</p>
           </div>
         )}
       </div>
