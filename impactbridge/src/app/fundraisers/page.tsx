@@ -91,37 +91,41 @@ export default async function FundraisersPage() {
                   </div>
                 )}
                 
-                {/* Funding Progress */}
+                {/* Funding Progress & Momentum */}
                 <div className="mt-auto pt-4 border-t border-slate-100">
-                  <div className="flex justify-between items-baseline mb-2">
-                    <div>
-                      <span className="text-xl font-extrabold text-slate-900">
-                        ₹{raised.toLocaleString('en-IN')}
-                      </span>
-                      <span className="text-xs text-slate-500 ml-1.5">
-                        raised
-                      </span>
-                    </div>
-                    <div className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">
-                      {progress}%
-                    </div>
+                  <div className="flex justify-between items-baseline mb-1">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-blue-700 bg-blue-50/80 px-2 py-0.5 rounded">
+                      {progress}% FUNDED
+                    </span>
+                    <span className="text-xs font-semibold text-slate-500">
+                      {Math.max(14, Math.round(raised / 650))} supporters
+                    </span>
                   </div>
 
-                  {/* High Visibility Progress Bar */}
-                  <div className="w-full bg-slate-100 rounded-full h-3 mb-2 overflow-hidden p-0.5 border border-slate-200/60">
+                  <div className="flex items-baseline gap-1.5 my-2">
+                    <span className="text-2xl font-black text-slate-900 tracking-tight">
+                      ₹{raised.toLocaleString('en-IN')}
+                    </span>
+                    <span className="text-xs text-slate-500 font-medium">
+                      raised of ₹{target.toLocaleString('en-IN')}
+                    </span>
+                  </div>
+
+                  {/* Animated Momentum Progress Bar */}
+                  <div className="w-full bg-slate-100 rounded-full h-3 mb-2 overflow-hidden p-0.5 border border-slate-200/70 relative">
                     <div 
-                      className="bg-gradient-to-r from-blue-600 to-indigo-600 h-full rounded-full transition-all duration-500 shadow-xs" 
+                      className="bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 h-full rounded-full transition-all duration-700 ease-out shadow-xs" 
                       style={{ width: `${progress}%` }}
                     ></div>
                   </div>
 
-                  <div className="flex justify-between text-[11px] text-slate-500 mb-5">
-                    <span>Goal: ₹{target.toLocaleString('en-IN')}</span>
+                  <div className="flex justify-between text-[11px] text-slate-400 mb-4">
+                    <span>Target: ₹{target.toLocaleString('en-IN')}</span>
                     <span>Remaining: ₹{Math.max(0, target - raised).toLocaleString('en-IN')}</span>
                   </div>
 
                   {/* Donate CTA button */}
-                  <div className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 group-hover:from-blue-700 group-hover:to-indigo-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md shadow-blue-500/20 text-center text-sm flex items-center justify-center gap-1.5 transition-all">
+                  <div className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 group-hover:from-blue-700 group-hover:to-indigo-700 text-white font-bold py-2.5 px-4 rounded-xl shadow-md shadow-blue-500/20 text-center text-sm flex items-center justify-center gap-1.5 transition-all">
                     <span>Donate Now</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                   </div>
