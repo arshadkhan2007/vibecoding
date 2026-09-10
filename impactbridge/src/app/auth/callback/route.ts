@@ -8,8 +8,26 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) {
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+
+    if (!error && data?.user) {
+      const user = data.user
+      // Ensure profile exists for Google OAuth users
+      const { data: existingProfile } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', user.id)
+        .maybeSingle()
+
+      if (!existingProfile) {
+        await supabase.from('profiles').insert({
+          id: user.id,
+          name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'User',
+          email: user.email,
+          role: 'USER',
+        })
+      }
+
       return NextResponse.redirect(`${origin}${next}`)
     }
   }
