@@ -18,7 +18,6 @@ import {
 import { getProblemImage } from '@/lib/images'
 import ImpactNetworkCanvas from '@/components/ImpactNetworkCanvas'
 import AnimatedCounter from '@/components/AnimatedCounter'
-import AnimatedTextTicker from '@/components/AnimatedTextTicker'
 import LiveActivityTicker from '@/components/LiveActivityTicker'
 
 export default async function Home() {
@@ -65,10 +64,10 @@ export default async function Home() {
             <span>Live Civic Crowdfunding Protocol</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-5 leading-[1.1] text-slate-950">
-            Real Problems. <br />
-            <span className="text-slate-900">Real People. </span>
-            <AnimatedTextTicker />
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-5 leading-[1.15]">
+            <span className="text-slate-950">Real Problems. Real People.</span>
+            <br />
+            <span className="text-blue-600">Real Impact.</span>
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl max-w-2xl mx-auto mb-8 text-slate-600 font-normal leading-relaxed">
@@ -105,10 +104,12 @@ export default async function Home() {
       </section>
 
       {/* Live Stream Activity Marquee Ticker */}
-      <LiveActivityTicker />
+      <div className="my-6">
+        <LiveActivityTicker />
+      </div>
 
       {/* 2. IMPACT COUNTER (ANIMATED METRIC NODES) */}
-      <section className="relative z-20 -mt-6 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <section className="relative z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-8">
         <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/70 border border-slate-200/80 p-6 sm:p-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-slate-100">
             <div className="pt-2 md:pt-0">
