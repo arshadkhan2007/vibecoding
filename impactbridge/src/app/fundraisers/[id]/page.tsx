@@ -4,9 +4,9 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft, Users, Target, Activity } from 'lucide-react'
 import DonationForm from './DonationForm'
 
-export default async function FundraiserDetailsPage({ params }: { params: { id: string } }) {
+export default async function FundraiserDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient()
-  const id = params.id
+  const { id } = await params
 
   const { data: fundraiser, error } = await supabase
     .from('fundraisers')

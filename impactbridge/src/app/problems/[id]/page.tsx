@@ -3,11 +3,9 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, MapPin, AlertTriangle, Users } from 'lucide-react'
 
-export default async function ProblemDetailsPage({ params }: { params: { id: string } }) {
+export default async function ProblemDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient()
-
-  // Need await params because of Next 15 changes (though we are likely using 14, just safe)
-  const id = params.id
+  const { id } = await params
 
   const { data: problem, error } = await supabase
     .from('problems')
